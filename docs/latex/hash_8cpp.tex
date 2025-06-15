@@ -1,0 +1,125 @@
+\doxysection{src/hash.cpp File Reference}
+\hypertarget{hash_8cpp}{}\label{hash_8cpp}\index{src/hash.cpp@{src/hash.cpp}}
+
+
+Реализация алгоритмов хеширования MD5, SHA-\/1 и SHA-\/256 для проверки целостности файлов.  
+
+
+{\ttfamily \#include "{}../include/hash.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{hash_8h_aef209f61347c9f0df80eb7ad691e79e4}{md5\+\_\+internal\+::left\+\_\+rotate}} (uint32\+\_\+t x, uint32\+\_\+t c)
+\item 
+void \mbox{\hyperlink{hash_8h_af174ada35458c9c41ad1e530f90d142e}{md5\+\_\+internal\+::md5\+\_\+transform}} (std\+::array$<$ uint32\+\_\+t, 4 $>$ \&H, const std\+::array$<$ uint8\+\_\+t, 64 $>$ \&block)
+\item 
+std\+::string \mbox{\hyperlink{hash_8cpp_a124c9709ac1fa0bf2fae635c1a858c79}{md5\+\_\+file}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Вычисляет MD5‑хеш указанного файла. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{hash_8cpp_a5ba3106fdc170e65936ee27296937f16}{sha1\+\_\+file}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Вычисляет SHA‑1‑хеш указанного файла. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{hash_8cpp_ac1e42111b881964813ce0699ce4a494d}{sha256\+\_\+file}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Вычисляет SHA‑256‑хеш указанного файла. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Реализация алгоритмов хеширования MD5, SHA-\/1 и SHA-\/256 для проверки целостности файлов. 
+
+
+
+Definition in file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{hash_8h_aef209f61347c9f0df80eb7ad691e79e4}\index{hash.cpp@{hash.cpp}!left\_rotate@{left\_rotate}}
+\index{left\_rotate@{left\_rotate}!hash.cpp@{hash.cpp}}
+\doxysubsubsection{\texorpdfstring{left\_rotate()}{left\_rotate()}}
+{\footnotesize\ttfamily \label{hash_8h_aef209f61347c9f0df80eb7ad691e79e4} 
+uint32\+\_\+t md5\+\_\+internal\+::left\+\_\+rotate (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{x}{, }\item[{uint32\+\_\+t}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hash_8cpp_source_l00037}{37}} of file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+
+\Hypertarget{hash_8cpp_a124c9709ac1fa0bf2fae635c1a858c79}\index{hash.cpp@{hash.cpp}!md5\_file@{md5\_file}}
+\index{md5\_file@{md5\_file}!hash.cpp@{hash.cpp}}
+\doxysubsubsection{\texorpdfstring{md5\_file()}{md5\_file()}}
+{\footnotesize\ttfamily \label{hash_8cpp_a124c9709ac1fa0bf2fae635c1a858c79} 
+std\+::string md5\+\_\+file (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Вычисляет MD5‑хеш указанного файла. 
+
+Файл читается в бинарном режиме и дополняется согласно спецификации MD5. При невозможности открыть файл функция возвращает пустую строку.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & Полный или относительный путь к файлу. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+32‑символьная строка в нижнем регистре (hex‑представление MD5). 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{hash_8cpp_source_l00056}{56}} of file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+
+\Hypertarget{hash_8h_af174ada35458c9c41ad1e530f90d142e}\index{hash.cpp@{hash.cpp}!md5\_transform@{md5\_transform}}
+\index{md5\_transform@{md5\_transform}!hash.cpp@{hash.cpp}}
+\doxysubsubsection{\texorpdfstring{md5\_transform()}{md5\_transform()}}
+{\footnotesize\ttfamily \label{hash_8h_af174ada35458c9c41ad1e530f90d142e} 
+void md5\+\_\+internal\+::md5\+\_\+transform (\begin{DoxyParamCaption}\item[{std\+::array$<$ uint32\+\_\+t, 4 $>$ \&}]{H}{, }\item[{const std\+::array$<$ uint8\+\_\+t, 64 $>$ \&}]{block}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hash_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+
+\Hypertarget{hash_8cpp_a5ba3106fdc170e65936ee27296937f16}\index{hash.cpp@{hash.cpp}!sha1\_file@{sha1\_file}}
+\index{sha1\_file@{sha1\_file}!hash.cpp@{hash.cpp}}
+\doxysubsubsection{\texorpdfstring{sha1\_file()}{sha1\_file()}}
+{\footnotesize\ttfamily \label{hash_8cpp_a5ba3106fdc170e65936ee27296937f16} 
+std\+::string sha1\+\_\+file (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Вычисляет SHA‑1‑хеш указанного файла. 
+
+Аналогична md5\+\_\+file, но использует алгоритм SHA‑1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & Полный или относительный путь к файлу. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+40‑символьная строка в нижнем регистре (hex‑представление SHA‑1). 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{hash_8cpp_source_l00086}{86}} of file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+
+\Hypertarget{hash_8cpp_ac1e42111b881964813ce0699ce4a494d}\index{hash.cpp@{hash.cpp}!sha256\_file@{sha256\_file}}
+\index{sha256\_file@{sha256\_file}!hash.cpp@{hash.cpp}}
+\doxysubsubsection{\texorpdfstring{sha256\_file()}{sha256\_file()}}
+{\footnotesize\ttfamily \label{hash_8cpp_ac1e42111b881964813ce0699ce4a494d} 
+std\+::string sha256\+\_\+file (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Вычисляет SHA‑256‑хеш указанного файла. 
+
+Аналогична md5\+\_\+file, но использует алгоритм SHA‑256.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & Полный или относительный путь к файлу. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+64‑символьная строка в нижнем регистре (hex‑представление SHA‑256). 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{hash_8cpp_source_l00129}{129}} of file \mbox{\hyperlink{hash_8cpp_source}{hash.\+cpp}}.
+

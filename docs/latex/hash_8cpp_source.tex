@@ -1,0 +1,192 @@
+\doxysection{hash.\+cpp}
+\hypertarget{hash_8cpp_source}{}\label{hash_8cpp_source}\index{src/hash.cpp@{src/hash.cpp}}
+\mbox{\hyperlink{hash_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}../include/hash.h"{}}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00009}00009\ \textcolor{comment}{//\ =======================\ MD5\ =======================}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00010}00010\ \textcolor{keyword}{namespace\ }md5\_internal\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{const}\ std::array<uint32\_t,\ 64>\ K\ =\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00012}00012\ \ \ \ \ \ \ \ \ 0xd76aa478,\ 0xe8c7b756,\ 0x242070db,\ 0xc1bdceee,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00013}00013\ \ \ \ \ \ \ \ \ 0xf57c0faf,\ 0x4787c62a,\ 0xa8304613,\ 0xfd469501,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ 0x698098d8,\ 0x8b44f7af,\ 0xffff5bb1,\ 0x895cd7be,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ 0x6b901122,\ 0xfd987193,\ 0xa679438e,\ 0x49b40821,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00016}00016\ \ \ \ \ \ \ \ \ 0xf61e2562,\ 0xc040b340,\ 0x265e5a51,\ 0xe9b6c7aa,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ 0xd62f105d,\ 0x02441453,\ 0xd8a1e681,\ 0xe7d3fbc8,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00018}00018\ \ \ \ \ \ \ \ \ 0x21e1cde6,\ 0xc33707d6,\ 0xf4d50d87,\ 0x455a14ed,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ 0xa9e3e905,\ 0xfcefa3f8,\ 0x676f02d9,\ 0x8d2a4c8a,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ 0xfffa3942,\ 0x8771f681,\ 0x6d9d6122,\ 0xfde5380c,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ 0xa4beea44,\ 0x4bdecfa9,\ 0xf6bb4b60,\ 0xbebfbc70,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ 0x289b7ec6,\ 0xeaa127fa,\ 0xd4ef3085,\ 0x04881d05,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ 0xd9d4d039,\ 0xe6db99e5,\ 0x1fa27cf8,\ 0xc4ac5665,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ 0xf4292244,\ 0x432aff97,\ 0xab9423a7,\ 0xfc93a039,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ 0x655b59c3,\ 0x8f0ccc92,\ 0xffeff47d,\ 0x85845dd1,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ 0x6fa87e4f,\ 0xfe2ce6e0,\ 0xa3014314,\ 0x4e0811a1,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ 0xf7537e82,\ 0xbd3af235,\ 0x2ad7d2bb,\ 0xeb86d391}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00028}00028\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{const}\ std::array<uint32\_t,\ 64>\ S\ =\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ 7,12,17,22,\ 7,12,17,22,\ 7,12,17,22,\ 7,12,17,22,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ 5,\ 9,14,20,\ 5,\ 9,14,20,\ 5,\ 9,14,20,\ 5,\ 9,14,20,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ 4,11,16,23,\ 4,11,16,23,\ 4,11,16,23,\ 4,11,16,23,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ 6,10,15,21,\ 6,10,15,21,\ 6,10,15,21,\ 6,10,15,21}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00035}00035\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00037}00037\ \ \ \ \ uint32\_t\ left\_rotate(uint32\_t\ x,\ uint32\_t\ c)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (x\ <<\ c)\ |\ (x\ >>\ (32\ -\/\ c));}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{void}\ md5\_transform(std::array<uint32\_t,\ 4>\&\ H,\ \textcolor{keyword}{const}\ std::array<uint8\_t,\ 64>\&\ block)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ uint32\_t\ A\ =\ H[0],\ B\ =\ H[1],\ C\ =\ H[2],\ D\ =\ H[3],\ F,\ g,\ M[16];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 16;\ ++i)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ M[i]\ =\ block[i*4]\ |\ (block[i*4+1]\ <<\ 8)\ |\ (block[i*4+2]\ <<\ 16)\ |\ (block[i*4+3]\ <<\ 24);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 64;\ ++i)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ 16)\ \{\ F\ =\ (B\ \&\ C)\ |\ (\string~B\ \&\ D);\ g\ =\ i;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i\ <\ 32)\ \{\ F\ =\ (D\ \&\ B)\ |\ (\string~D\ \&\ C);\ g\ =\ (5*i\ +\ 1)\ \%\ 16;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (i\ <\ 48)\ \{\ F\ =\ B\ \string^\ C\ \string^\ D;\ g\ =\ (3*i\ +\ 5)\ \%\ 16;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ F\ =\ C\ \string^\ (B\ |\ \string~D);\ g\ =\ (7*i)\ \%\ 16;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ F\ +=\ A\ +\ K[i]\ +\ M[g];\ A\ =\ D;\ D\ =\ C;\ C\ =\ B;\ B\ +=\ left\_rotate(F,\ S[i]);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ H[0]\ +=\ A;\ H[1]\ +=\ B;\ H[2]\ +=\ C;\ H[3]\ +=\ D;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00056}\mbox{\hyperlink{hash_8cpp_a124c9709ac1fa0bf2fae635c1a858c79}{00056}}\ std::string\ \mbox{\hyperlink{hash_8cpp_a124c9709ac1fa0bf2fae635c1a858c79}{md5\_file}}(\textcolor{keyword}{const}\ std::string\&\ filepath)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00057}00057\ \ \ \ \ std::ifstream\ file(filepath,\ std::ios::binary);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00060}00060\ \ \ \ \ std::array<uint32\_t,\ 4>\ H\ =\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ 0x67452301,\ 0xefcdab89,\ 0x98badcfe,\ 0x10325476}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00062}00062\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00064}00064\ \ \ \ \ std::vector<uint8\_t>\ data((std::istreambuf\_iterator<char>(file)),\ std::istreambuf\_iterator<char>());}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00065}00065\ \ \ \ \ uint64\_t\ original\_size\ =\ data.size();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00066}00066\ \ \ \ \ data.push\_back(0x80);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{while}\ ((data.size()\ \%\ 64)\ !=\ 56)\ data.push\_back(0x00);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00068}00068\ \ \ \ \ uint64\_t\ bit\_len\ =\ original\_size\ *\ 8;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 8;\ ++i)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ data.push\_back((bit\_len\ >>\ (8\ *\ i))\ \&\ 0xFF);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ data.size();\ i\ +=\ 64)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ std::array<uint8\_t,\ 64>\ block;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ std::copy(data.begin()\ +\ i,\ data.begin()\ +\ i\ +\ 64,\ block.begin());}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ md5\_internal::md5\_transform(H,\ block);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00078}00078\ \ \ \ \ std::ostringstream\ result;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ h\ :\ H)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 4;\ ++i)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ result\ <<\ std::hex\ <<\ std::setw(2)\ <<\ std::setfill(\textcolor{charliteral}{'0'})\ <<\ ((h\ >>\ (8\ *\ i))\ \&\ 0xFF);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{return}\ result.str();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00083}00083\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00085}00085\ \textcolor{comment}{//\ =======================\ SHA1\ =======================}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00086}\mbox{\hyperlink{hash_8cpp_a5ba3106fdc170e65936ee27296937f16}{00086}}\ std::string\ \mbox{\hyperlink{hash_8cpp_a5ba3106fdc170e65936ee27296937f16}{sha1\_file}}(\textcolor{keyword}{const}\ std::string\&\ filepath)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00087}00087\ \ \ \ \ std::ifstream\ file(filepath,\ std::ios::binary);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00090}00090\ \ \ \ \ std::vector<uint8\_t>\ data((std::istreambuf\_iterator<char>(file)),\ std::istreambuf\_iterator<char>());}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00091}00091\ \ \ \ \ uint64\_t\ original\_size\ =\ data.size();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00092}00092\ \ \ \ \ data.push\_back(0x80);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{while}\ ((data.size()\ \%\ 64)\ !=\ 56)\ data.push\_back(0x00);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00094}00094\ \ \ \ \ uint64\_t\ bit\_len\ =\ original\_size\ *\ 8;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 8;\ ++i)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ data.push\_back((bit\_len\ >>\ (8\ *\ (7\ -\/\ i)))\ \&\ 0xFF);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00098}00098\ \ \ \ \ uint32\_t\ h0\ =\ 0x67452301,\ h1\ =\ 0xEFCDAB89,\ h2\ =\ 0x98BADCFE,\ h3\ =\ 0x10325476,\ h4\ =\ 0xC3D2E1F0;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ data.size();\ i\ +=\ 64)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ uint32\_t\ w[80]\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 0;\ t\ <\ 16;\ ++t)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ w[t]\ =\ (data[i\ +\ 4*t]\ <<\ 24)\ |\ (data[i\ +\ 4*t\ +\ 1]\ <<\ 16)\ |\ (data[i\ +\ 4*t\ +\ 2]\ <<\ 8)\ |\ data[i\ +\ 4*t\ +\ 3];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 16;\ t\ <\ 80;\ ++t)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ w[t]\ =\ ((w[t-\/3]\ \string^\ w[t-\/8]\ \string^\ w[t-\/14]\ \string^\ w[t-\/16])\ <<\ 1)\ |\ ((w[t-\/3]\ \string^\ w[t-\/8]\ \string^\ w[t-\/14]\ \string^\ w[t-\/16])\ >>\ 31);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ uint32\_t\ a\ =\ h0,\ b\ =\ h1,\ c\ =\ h2,\ d\ =\ h3,\ e\ =\ h4;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 0;\ t\ <\ 80;\ ++t)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ f,\ k;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ <\ 20)\ \{\ f\ =\ (b\ \&\ c)\ |\ (\string~b\ \&\ d);\ k\ =\ 0x5A827999;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (t\ <\ 40)\ \{\ f\ =\ b\ \string^\ c\ \string^\ d;\ k\ =\ 0x6ED9EBA1;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (t\ <\ 60)\ \{\ f\ =\ (b\ \&\ c)\ |\ (b\ \&\ d)\ |\ (c\ \&\ d);\ k\ =\ 0x8F1BBCDC;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\ f\ =\ b\ \string^\ c\ \string^\ d;\ k\ =\ 0xCA62C1D6;\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ temp\ =\ ((a\ <<\ 5)\ |\ (a\ >>\ 27))\ +\ f\ +\ e\ +\ k\ +\ w[t];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ e\ =\ d;\ d\ =\ c;\ c\ =\ (b\ <<\ 30)\ |\ (b\ >>\ 2);\ b\ =\ a;\ a\ =\ temp;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ h0\ +=\ a;\ h1\ +=\ b;\ h2\ +=\ c;\ h3\ +=\ d;\ h4\ +=\ e;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00120}00120\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00122}00122\ \ \ \ \ std::ostringstream\ result;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ h\ :\ \{h0,\ h1,\ h2,\ h3,\ h4\})}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ result\ <<\ std::hex\ <<\ std::setw(8)\ <<\ std::setfill(\textcolor{charliteral}{'0'})\ <<\ h;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{return}\ result.str();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00126}00126\ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00128}00128\ \textcolor{comment}{//\ =======================\ SHA256\ =======================}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00129}\mbox{\hyperlink{hash_8cpp_ac1e42111b881964813ce0699ce4a494d}{00129}}\ std::string\ \mbox{\hyperlink{hash_8cpp_ac1e42111b881964813ce0699ce4a494d}{sha256\_file}}(\textcolor{keyword}{const}\ std::string\&\ filepath)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00130}00130\ \ \ \ \ std::ifstream\ file(filepath,\ std::ios::binary);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00133}00133\ \ \ \ \ std::vector<uint8\_t>\ data((std::istreambuf\_iterator<char>(file)),\ std::istreambuf\_iterator<char>());}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00134}00134\ \ \ \ \ uint64\_t\ original\_size\ =\ data.size();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00135}00135\ \ \ \ \ data.push\_back(0x80);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{while}\ ((data.size()\ \%\ 64)\ !=\ 56)\ data.push\_back(0x00);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00137}00137\ \ \ \ \ uint64\_t\ bit\_len\ =\ original\_size\ *\ 8;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 8;\ ++i)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ data.push\_back((bit\_len\ >>\ (8\ *\ (7\ -\/\ i)))\ \&\ 0xFF);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00141}00141\ \ \ \ \ uint32\_t\ h[8]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ 0x6a09e667,\ 0xbb67ae85,\ 0x3c6ef372,\ 0xa54ff53a,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ 0x510e527f,\ 0x9b05688c,\ 0x1f83d9ab,\ 0x5be0cd19}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00144}00144\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ k[64]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ 0x428a2f98,\ 0x71374491,\ 0xb5c0fbcf,\ 0xe9b5dba5,\ 0x3956c25b,\ 0x59f111f1,\ 0x923f82a4,\ 0xab1c5ed5,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ 0xd807aa98,\ 0x12835b01,\ 0x243185be,\ 0x550c7dc3,\ 0x72be5d74,\ 0x80deb1fe,\ 0x9bdc06a7,\ 0xc19bf174,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ 0xe49b69c1,\ 0xefbe4786,\ 0x0fc19dc6,\ 0x240ca1cc,\ 0x2de92c6f,\ 0x4a7484aa,\ 0x5cb0a9dc,\ 0x76f988da,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ 0x983e5152,\ 0xa831c66d,\ 0xb00327c8,\ 0xbf597fc7,\ 0xc6e00bf3,\ 0xd5a79147,\ 0x06ca6351,\ 0x14292967,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ 0x27b70a85,\ 0x2e1b2138,\ 0x4d2c6dfc,\ 0x53380d13,\ 0x650a7354,\ 0x766a0abb,\ 0x81c2c92e,\ 0x92722c85,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ 0xa2bfe8a1,\ 0xa81a664b,\ 0xc24b8b70,\ 0xc76c51a3,\ 0xd192e819,\ 0xd6990624,\ 0xf40e3585,\ 0x106aa070,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ 0x19a4c116,\ 0x1e376c08,\ 0x2748774c,\ 0x34b0bcb5,\ 0x391c0cb3,\ 0x4ed8aa4a,\ 0x5b9cca4f,\ 0x682e6ff3,}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ 0x748f82ee,\ 0x78a5636f,\ 0x84c87814,\ 0x8cc70208,\ 0x90befffa,\ 0xa4506ceb,\ 0xbef9a3f7,\ 0xc67178f2}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00155}00155\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ data.size();\ i\ +=\ 64)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ uint32\_t\ w[64]\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 0;\ t\ <\ 16;\ ++t)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ w[t]\ =\ (data[i\ +\ 4*t]\ <<\ 24)\ |\ (data[i\ +\ 4*t\ +\ 1]\ <<\ 16)\ |\ (data[i\ +\ 4*t\ +\ 2]\ <<\ 8)\ |\ data[i\ +\ 4*t\ +\ 3];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 16;\ t\ <\ 64;\ ++t)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ s0\ =\ ((w[t-\/15]\ >>\ 7)\ |\ (w[t-\/15]\ <<\ 25))\ \string^\ ((w[t-\/15]\ >>\ 18)\ |\ (w[t-\/15]\ <<\ 14))\ \string^\ (w[t-\/15]\ >>\ 3);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ s1\ =\ ((w[t-\/2]\ >>\ 17)\ |\ (w[t-\/2]\ <<\ 15))\ \string^\ ((w[t-\/2]\ >>\ 19)\ |\ (w[t-\/2]\ <<\ 13))\ \string^\ (w[t-\/2]\ >>\ 10);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ w[t]\ =\ w[t-\/16]\ +\ s0\ +\ w[t-\/7]\ +\ s1;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ uint32\_t\ a\ =\ h[0],\ b\ =\ h[1],\ c\ =\ h[2],\ d\ =\ h[3];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ uint32\_t\ e\ =\ h[4],\ f\ =\ h[5],\ g\ =\ h[6],\ hh\ =\ h[7];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ t\ =\ 0;\ t\ <\ 64;\ ++t)\ \{}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ S1\ =\ ((e\ >>\ 6)\ |\ (e\ <<\ 26))\ \string^\ ((e\ >>\ 11)\ |\ (e\ <<\ 21))\ \string^\ ((e\ >>\ 25)\ |\ (e\ <<\ 7));}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ ch\ =\ (e\ \&\ f)\ \string^\ (\string~e\ \&\ g);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ temp1\ =\ hh\ +\ S1\ +\ ch\ +\ k[t]\ +\ w[t];}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ S0\ =\ ((a\ >>\ 2)\ |\ (a\ <<\ 30))\ \string^\ ((a\ >>\ 13)\ |\ (a\ <<\ 19))\ \string^\ ((a\ >>\ 22)\ |\ (a\ <<\ 10));}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ maj\ =\ (a\ \&\ b)\ \string^\ (a\ \&\ c)\ \string^\ (b\ \&\ c);}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ temp2\ =\ S0\ +\ maj;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ hh\ =\ g;\ g\ =\ f;\ f\ =\ e;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ e\ =\ d\ +\ temp1;\ d\ =\ c;\ c\ =\ b;\ b\ =\ a;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ a\ =\ temp1\ +\ temp2;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ h[0]\ +=\ a;\ h[1]\ +=\ b;\ h[2]\ +=\ c;\ h[3]\ +=\ d;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ h[4]\ +=\ e;\ h[5]\ +=\ f;\ h[6]\ +=\ g;\ h[7]\ +=\ hh;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00184}00184\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00186}00186\ \ \ \ \ std::ostringstream\ result;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ v\ :\ h)}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ result\ <<\ std::hex\ <<\ std::setw(8)\ <<\ std::setfill(\textcolor{charliteral}{'0'})\ <<\ v;}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00189}00189\ \ \ \ \ \textcolor{keywordflow}{return}\ result.str();}
+\DoxyCodeLine{\Hypertarget{hash_8cpp_source_l00190}00190\ \}}
+
+\end{DoxyCode}

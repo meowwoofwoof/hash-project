@@ -1,7 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "../include/doctest.h"
-#include "hash.h"
-#include <fstream>
+#include "../include/hash.h"
 #include <filesystem>
 
 // Вспомогательная функция для создания тестового файла

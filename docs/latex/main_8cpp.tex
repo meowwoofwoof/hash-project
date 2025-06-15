@@ -1,0 +1,149 @@
+\doxysection{src/main.cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+
+
+Консольное приложение для вычисления и проверки хешей файлов.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include "{}../include/hash.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a4953d1edcbbfc7e420c423ded1d5621a}{clear\+\_\+screen}} ()
+\begin{DoxyCompactList}\small\item\em Очищает экран консоли. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a86f4ecf2f14848c99379a7926c8d40c3}{wait\+\_\+menu\+\_\+or\+\_\+exit}} ()
+\begin{DoxyCompactList}\small\item\em Показывает меню возврата в главное меню или выхода из программы. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a69ab4fa03aa92589ffd774435f9d4b40}{select\+\_\+algorithm}} ()
+\begin{DoxyCompactList}\small\item\em Отображает меню выбора алгоритма хеширования. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a305d453d6af17eec0482997fc5580443}{get\+\_\+hash}} (const std\+::string \&algo, const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Вычисляет хеш файла по указанному алгоритму. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a88d5b61571d8f9dd49b4b9e8573ef8ba}{run\+\_\+hash}} ()
+\begin{DoxyCompactList}\small\item\em Интерфейс режима получения хеша. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a3a15e7319592169c17221c33a8d707b7}{run\+\_\+verify}} ()
+\begin{DoxyCompactList}\small\item\em Интерфейс режима проверки хеша. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Главная функция. Отображает основное меню и запускает выбранный режим. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Консольное приложение для вычисления и проверки хешей файлов. 
+
+Поддерживаются алгоритмы MD5, SHA‑1, SHA‑256. Реализация всех хеш‑функций написана вручную. Пользователь может выбрать режим\+: получение хеша или проверка соответствия хеша. 
+
+Definition in file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_a4953d1edcbbfc7e420c423ded1d5621a}\index{main.cpp@{main.cpp}!clear\_screen@{clear\_screen}}
+\index{clear\_screen@{clear\_screen}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{clear\_screen()}{clear\_screen()}}
+{\footnotesize\ttfamily \label{main_8cpp_a4953d1edcbbfc7e420c423ded1d5621a} 
+void clear\+\_\+screen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Очищает экран консоли. 
+
+Использует системную команду {\ttfamily cls} для Windows. 
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a305d453d6af17eec0482997fc5580443}\index{main.cpp@{main.cpp}!get\_hash@{get\_hash}}
+\index{get\_hash@{get\_hash}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_hash()}{get\_hash()}}
+{\footnotesize\ttfamily \label{main_8cpp_a305d453d6af17eec0482997fc5580443} 
+std\+::string get\+\_\+hash (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{algo}{, }\item[{const std\+::string \&}]{filepath}{}\end{DoxyParamCaption})}
+
+
+
+Вычисляет хеш файла по указанному алгоритму. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em algo} & Алгоритм ("{}md5"{}, "{}sha1"{}, "{}sha256"{}). \\
+\hline
+{\em filepath} & Путь к файлу. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Хеш в формате hex или пустая строка при ошибке. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00073}{73}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Главная функция. Отображает основное меню и запускает выбранный режим. 
+
+Цикл продолжается до тех пор, пока пользователь не выберет выход. 
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00187}{187}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a88d5b61571d8f9dd49b4b9e8573ef8ba}\index{main.cpp@{main.cpp}!run\_hash@{run\_hash}}
+\index{run\_hash@{run\_hash}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_hash()}{run\_hash()}}
+{\footnotesize\ttfamily \label{main_8cpp_a88d5b61571d8f9dd49b4b9e8573ef8ba} 
+void run\+\_\+hash (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Интерфейс режима получения хеша. 
+
+Пользователь выбирает алгоритм, файл и способ вывода хеша (в консоль или файл). 
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00085}{85}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a3a15e7319592169c17221c33a8d707b7}\index{main.cpp@{main.cpp}!run\_verify@{run\_verify}}
+\index{run\_verify@{run\_verify}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_verify()}{run\_verify()}}
+{\footnotesize\ttfamily \label{main_8cpp_a3a15e7319592169c17221c33a8d707b7} 
+void run\+\_\+verify (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Интерфейс режима проверки хеша. 
+
+Пользователь выбирает алгоритм, файл и источник ожидаемого хеша (вручную или из файла). Затем выполняется сравнение хешей. 
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00132}{132}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a69ab4fa03aa92589ffd774435f9d4b40}\index{main.cpp@{main.cpp}!select\_algorithm@{select\_algorithm}}
+\index{select\_algorithm@{select\_algorithm}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{select\_algorithm()}{select\_algorithm()}}
+{\footnotesize\ttfamily \label{main_8cpp_a69ab4fa03aa92589ffd774435f9d4b40} 
+std\+::string select\+\_\+algorithm (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Отображает меню выбора алгоритма хеширования. 
+
+\begin{DoxyReturn}{Returns}
+Название алгоритма ("{}md5"{}, "{}sha1"{}, "{}sha256"{}) или пустую строку для выхода. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00045}{45}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+
+\Hypertarget{main_8cpp_a86f4ecf2f14848c99379a7926c8d40c3}\index{main.cpp@{main.cpp}!wait\_menu\_or\_exit@{wait\_menu\_or\_exit}}
+\index{wait\_menu\_or\_exit@{wait\_menu\_or\_exit}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{wait\_menu\_or\_exit()}{wait\_menu\_or\_exit()}}
+{\footnotesize\ttfamily \label{main_8cpp_a86f4ecf2f14848c99379a7926c8d40c3} 
+void wait\+\_\+menu\+\_\+or\+\_\+exit (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Показывает меню возврата в главное меню или выхода из программы. 
+
+
+
+Definition at line \mbox{\hyperlink{main_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{main_8cpp_source}{main.\+cpp}}.
+

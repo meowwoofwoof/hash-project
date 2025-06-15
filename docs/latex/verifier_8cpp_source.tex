@@ -1,0 +1,24 @@
+\doxysection{verifier.\+cpp}
+\hypertarget{verifier_8cpp_source}{}\label{verifier_8cpp_source}\index{src/verifier.cpp@{src/verifier.cpp}}
+\mbox{\hyperlink{verifier_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}../include/verifier.h"{}}}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}../include/hash.h"{}}}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00009}\mbox{\hyperlink{verifier_8cpp_a0afa9c0805140c83ee2584c3a00950ec}{00009}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{verifier_8cpp_a0afa9c0805140c83ee2584c3a00950ec}{verify\_md5}}(\textcolor{keyword}{const}\ std::string\&\ path,\ \textcolor{keyword}{const}\ std::string\&\ expected)\ \{}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00010}00010\ \ \ \ \ std::string\ actual\ =\ md5\_file(path);}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00011}00011\ \ \ \ \ \textcolor{keywordflow}{return}\ actual\ ==\ expected;}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00012}00012\ \}}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00014}\mbox{\hyperlink{verifier_8cpp_a02598ebd43518b63e0dea98775f315be}{00014}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{verifier_8cpp_a02598ebd43518b63e0dea98775f315be}{verify\_sha1}}(\textcolor{keyword}{const}\ std::string\&\ path,\ \textcolor{keyword}{const}\ std::string\&\ expected)\ \{}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00015}00015\ \ \ \ \ std::string\ actual\ =\ sha1\_file(path);}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{keywordflow}{return}\ actual\ ==\ expected;}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00017}00017\ \}}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00019}\mbox{\hyperlink{verifier_8cpp_ae5f10ad03f8a041934188cd3260d2ddd}{00019}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{verifier_8cpp_ae5f10ad03f8a041934188cd3260d2ddd}{verify\_sha256}}(\textcolor{keyword}{const}\ std::string\&\ path,\ \textcolor{keyword}{const}\ std::string\&\ expected)\ \{}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00020}00020\ \ \ \ \ std::string\ actual\ =\ sha256\_file(path);}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00021}00021\ \ \ \ \ \textcolor{keywordflow}{return}\ actual\ ==\ expected;}
+\DoxyCodeLine{\Hypertarget{verifier_8cpp_source_l00022}00022\ \}}
+
+\end{DoxyCode}

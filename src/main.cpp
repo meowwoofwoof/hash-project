@@ -7,10 +7,7 @@
  */
 
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <cstdlib>
-#include "hash.h"
+#include "../include/hash.h"
 
 /**
  * @brief Очищает экран консоли.

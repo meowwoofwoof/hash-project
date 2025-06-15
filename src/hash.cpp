@@ -3,15 +3,8 @@
  * @brief Реализация алгоритмов хеширования MD5, SHA-1 и SHA-256 для проверки целостности файлов.
  */
 
-#include "hash.h"
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
-#include <iterator>
-#include <array>
-#include <cstdint>
-#include <algorithm>
+#include "../include/hash.h"
+
 
 // ======================= MD5 =======================
 namespace md5_internal {

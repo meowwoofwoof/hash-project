@@ -1,0 +1,111 @@
+\doxysection{src/verifier.cpp File Reference}
+\hypertarget{verifier_8cpp}{}\label{verifier_8cpp}\index{src/verifier.cpp@{src/verifier.cpp}}
+
+
+Реализация функции проверки хэш-\/алгоритмов.  
+
+
+{\ttfamily \#include "{}../include/verifier.\+h"{}}\newline
+{\ttfamily \#include "{}../include/hash.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{verifier_8cpp_a0afa9c0805140c83ee2584c3a00950ec}{verify\+\_\+md5}} (const std\+::string \&path, const std\+::string \&expected)
+\begin{DoxyCompactList}\small\item\em Проверяет совпадение хеша файла с ожидаемым значением. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{verifier_8cpp_a02598ebd43518b63e0dea98775f315be}{verify\+\_\+sha1}} (const std\+::string \&path, const std\+::string \&expected)
+\begin{DoxyCompactList}\small\item\em Проверяет соответствие SHA-\/1-\/хеша файла ожидаемому значению. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{verifier_8cpp_ae5f10ad03f8a041934188cd3260d2ddd}{verify\+\_\+sha256}} (const std\+::string \&path, const std\+::string \&expected)
+\begin{DoxyCompactList}\small\item\em Проверяет соответствие SHA-\/256-\/хеша файла ожидаемому значению. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Реализация функции проверки хэш-\/алгоритмов. 
+
+
+
+Definition in file \mbox{\hyperlink{verifier_8cpp_source}{verifier.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{verifier_8cpp_a0afa9c0805140c83ee2584c3a00950ec}\index{verifier.cpp@{verifier.cpp}!verify\_md5@{verify\_md5}}
+\index{verify\_md5@{verify\_md5}!verifier.cpp@{verifier.cpp}}
+\doxysubsubsection{\texorpdfstring{verify\_md5()}{verify\_md5()}}
+{\footnotesize\ttfamily \label{verifier_8cpp_a0afa9c0805140c83ee2584c3a00950ec} 
+bool verify\+\_\+md5 (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path}{, }\item[{const std\+::string \&}]{expected}{}\end{DoxyParamCaption})}
+
+
+
+Проверяет совпадение хеша файла с ожидаемым значением. 
+
+Функция вычисляет хеш указанным алгоритмом и сравнивает результат с эталонной строкой, заданной пользователем.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & Путь к проверяемому файлу. \\
+\hline
+{\em expected} & Ожидаемый хеш в нижнем регистре (hex). \\
+\hline
+{\em algo} & Строка‑идентификатор алгоритма\+: "{}md5"{}, "{}sha1"{} или "{}sha256"{}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true — если вычисленный хеш совпадает c expected; ~\newline
+ false — в противном случае или при неизвестном алгоритме. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{verifier_8cpp_source_l00009}{9}} of file \mbox{\hyperlink{verifier_8cpp_source}{verifier.\+cpp}}.
+
+\Hypertarget{verifier_8cpp_a02598ebd43518b63e0dea98775f315be}\index{verifier.cpp@{verifier.cpp}!verify\_sha1@{verify\_sha1}}
+\index{verify\_sha1@{verify\_sha1}!verifier.cpp@{verifier.cpp}}
+\doxysubsubsection{\texorpdfstring{verify\_sha1()}{verify\_sha1()}}
+{\footnotesize\ttfamily \label{verifier_8cpp_a02598ebd43518b63e0dea98775f315be} 
+bool verify\+\_\+sha1 (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path}{, }\item[{const std\+::string \&}]{expected}{}\end{DoxyParamCaption})}
+
+
+
+Проверяет соответствие SHA-\/1-\/хеша файла ожидаемому значению. 
+
+Вычисляет SHA-\/1-\/хеш содержимого файла и сравнивает его с заданным хешем.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Путь к файлу для проверки. \\
+\hline
+{\em expected} & Ожидаемый SHA-\/1-\/хеш в виде строки (в нижнем регистре). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true — если хеш совпадает с expected; false — иначе. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{verifier_8cpp_source_l00014}{14}} of file \mbox{\hyperlink{verifier_8cpp_source}{verifier.\+cpp}}.
+
+\Hypertarget{verifier_8cpp_ae5f10ad03f8a041934188cd3260d2ddd}\index{verifier.cpp@{verifier.cpp}!verify\_sha256@{verify\_sha256}}
+\index{verify\_sha256@{verify\_sha256}!verifier.cpp@{verifier.cpp}}
+\doxysubsubsection{\texorpdfstring{verify\_sha256()}{verify\_sha256()}}
+{\footnotesize\ttfamily \label{verifier_8cpp_ae5f10ad03f8a041934188cd3260d2ddd} 
+bool verify\+\_\+sha256 (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path}{, }\item[{const std\+::string \&}]{expected}{}\end{DoxyParamCaption})}
+
+
+
+Проверяет соответствие SHA-\/256-\/хеша файла ожидаемому значению. 
+
+Вычисляет SHA-\/256-\/хеш содержимого файла и сравнивает его с заданным хешем.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Путь к файлу для проверки. \\
+\hline
+{\em expected} & Ожидаемый SHA-\/256-\/хеш в виде строки (в нижнем регистре). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true — если хеш совпадает с expected; false — иначе. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{verifier_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{verifier_8cpp_source}{verifier.\+cpp}}.
+
