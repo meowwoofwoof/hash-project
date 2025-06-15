@@ -1,0 +1,5 @@
+D:/hash_verifier_project/build/CMakeFiles/hash_verifier.dir
+D:/hash_verifier_project/build/CMakeFiles/tests.dir
+D:/hash_verifier_project/build/CMakeFiles/test.dir
+D:/hash_verifier_project/build/CMakeFiles/edit_cache.dir
+D:/hash_verifier_project/build/CMakeFiles/rebuild_cache.dir

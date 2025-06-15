@@ -1,0 +1,24 @@
+Start testing: Jun 16 03:22 Томск (зима)
+----------------------------------------------------------
+1/1 Testing: run_tests
+1/1 Test: run_tests
+Command: "D:/hash_verifier_project/build/tests.exe"
+Directory: D:/hash_verifier_project/build
+"run_tests" start time: Jun 16 03:22 Томск (зима)
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  4 |  4 passed | 0 failed | 0 skipped
+[doctest] assertions: 15 | 15 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"run_tests" end time: Jun 16 03:22 Томск (зима)
+"run_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 16 03:22 Томск (зима)

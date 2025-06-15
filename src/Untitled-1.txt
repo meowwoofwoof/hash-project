@@ -1,0 +1,320 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <map>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+#include <algorithm>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+using namespace std;
+
+// Структура для хранения заметки
+struct Note {
+    string author;
+    string content;
+    time_t timestamp;
+    string date; // Дата в формате YYYY-MM-DD
+};
+
+// Класс для управления планером
+class CollaborativePlanner {
+private:
+    string dataDir = "planner_data";
+    map<string, vector<Note>> dateToNotes; // Карта дата -> заметки
+
+public:
+    CollaborativePlanner() {
+        // Создаем директорию для хранения данных, если ее нет
+        if (!fs::exists(dataDir)) {
+            fs::create_directory(dataDir);
+        }
+        loadAllNotes();
+    }
+
+    // Загрузка всех заметок из файлов
+    void loadAllNotes() {
+        dateToNotes.clear();
+        for (const auto& entry : fs::directory_iterator(dataDir)) {
+            if (entry.path().extension() == ".txt") {
+                string date = entry.path().stem().string();
+                loadNotesForDate(date);
+            }
+        }
+    }
+
+    // Загрузка заметок для конкретной даты
+    void loadNotesForDate(const string& date) {
+        vector<Note> notes;
+        ifstream inFile(dataDir + "/" + date + ".txt");
+
+        if (inFile) {
+            string line;
+            Note currentNote;
+            bool readingContent = false;
+
+            while (getline(inFile, line)) {
+                if (line.substr(0, 7) == "Author:") {
+                    if (readingContent) {
+                        notes.push_back(currentNote);
+                        readingContent = false;
+                    }
+                    currentNote.author = line.substr(8);
+                }
+                else if (line.substr(0, 9) == "Created: ") {
+                    currentNote.timestamp = stol(line.substr(9));
+                }
+                else if (line.substr(0, 6) == "Date: ") {
+                    currentNote.date = line.substr(6);
+                }
+                else if (line == "Content:") {
+                    readingContent = true;
+                    currentNote.content = "";
+                }
+                else if (readingContent) {
+                    if (!currentNote.content.empty()) {
+                        currentNote.content += "\n";
+                    }
+                    currentNote.content += line;
+                }
+            }
+
+            if (readingContent) {
+                notes.push_back(currentNote);
+            }
+        }
+
+        dateToNotes[date] = notes;
+    }
+
+    // Сохранение заметок для конкретной даты
+    void saveNotesForDate(const string& date) {
+        ofstream outFile(dataDir + "/" + date + ".txt");
+        if (!outFile) {
+            cerr << "Error opening file for writing: " << date << ".txt" << endl;
+            return;
+        }
+
+        for (const auto& note : dateToNotes[date]) {
+            outFile << "Author: " << note.author << "\n";
+            outFile << "Created: " << note.timestamp << "\n";
+            outFile << "Date: " << note.date << "\n";
+            outFile << "Content:\n" << note.content << "\n\n";
+        }
+    }
+
+    // Добавление новой заметки
+    void addNote(const string& author, const string& content, const string& date) {
+        Note newNote;
+        newNote.author = author;
+        newNote.content = content;
+        newNote.timestamp = time(nullptr);
+        newNote.date = date;
+
+        dateToNotes[date].push_back(newNote);
+        saveNotesForDate(date);
+    }
+
+    // Показать календарь на месяц
+    void showCalendar(int year, int month) {
+        tm timeinfo = {0};
+        timeinfo.tm_year = year - 1900;
+        timeinfo.tm_mon = month - 1;
+        timeinfo.tm_mday = 1;
+        mktime(&timeinfo);
+
+        cout << "\n  " << put_time(&timeinfo, "%B %Y") << endl;
+        cout << " Su Mo Tu We Th Fr Sa" << endl;
+
+        int firstDay = timeinfo.tm_wday;
+        int daysInMonth;
+        if (month == 2) {
+            daysInMonth = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28;
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            daysInMonth = 30;
+        } else {
+            daysInMonth = 31;
+        }
+
+        // Выравнивание первого дня
+        for (int i = 0; i < firstDay; ++i) {
+            cout << "   ";
+        }
+
+        // Вывод дней месяца
+        for (int day = 1; day <= daysInMonth; ++day) {
+            // Проверяем, есть ли заметки на этот день
+            ostringstream dateStream;
+            dateStream << year << "-" << setw(2) << setfill('0') << month << "-" << setw(2) << setfill('0') << day;
+            string dateStr = dateStream.str();
+
+            bool hasNotes = dateToNotes.find(dateStr) != dateToNotes.end() && !dateToNotes[dateStr].empty();
+
+            if (hasNotes) {
+                cout << "\033[1;32m"; // Зеленый цвет для дней с заметками
+            }
+
+            cout << setw(2) << day << " ";
+
+            if (hasNotes) {
+                cout << "\033[0m"; // Сброс цвета
+            }
+
+            if ((firstDay + day) % 7 == 0 || day == daysInMonth) {
+                cout << endl;
+            }
+        }
+    }
+
+    // Показать заметки для конкретной даты
+    void showNotesForDate(const string& date) {
+        if (dateToNotes.find(date) == dateToNotes.end() || dateToNotes[date].empty()) {
+            cout << "No notes for " << date << endl;
+            return;
+        }
+
+        cout << "\nNotes for " << date << ":\n";
+        cout << "----------------------------\n";
+
+        for (const auto& note : dateToNotes[date]) {
+            cout << "Author: " << note.author << "\n";
+            cout << "Created: " << put_time(localtime(&note.timestamp), "%Y-%m-%d %H:%M:%S") << "\n";
+            cout << "Content:\n" << note.content << "\n";
+            cout << "----------------------------\n";
+        }
+    }
+
+    // Получить текущую дату в формате YYYY-MM-DD
+    string getCurrentDate() {
+        time_t now = time(nullptr);
+        tm* ltm = localtime(&now);
+        ostringstream dateStream;
+        dateStream << 1900 + ltm->tm_year << "-" 
+                  << setw(2) << setfill('0') << 1 + ltm->tm_mon << "-" 
+                  << setw(2) << setfill('0') << ltm->tm_mday;
+        return dateStream.str();
+    }
+
+    // Проверить, существует ли дата в формате YYYY-MM-DD
+    bool isValidDate(const string& date) {
+        if (date.length() != 10) return false;
+        if (date[4] != '-' || date[7] != '-') return false;
+
+        try {
+            int year = stoi(date.substr(0, 4));
+            int month = stoi(date.substr(5, 2));
+            int day = stoi(date.substr(8, 2));
+
+            if (year < 1900 || month < 1 || month > 12 || day < 1 || day > 31) {
+                return false;
+            }
+
+            // Простая проверка дней в месяце
+            if (month == 2 && day > 29) return false;
+            if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) return false;
+
+            return true;
+        } catch (...) {
+            return false;
+        }
+    }
+};
+
+// Главное меню
+void displayMainMenu() {
+    cout << "\nCollaborative Planner Menu:\n";
+    cout << "1. View calendar\n";
+    cout << "2. View notes for a date\n";
+    cout << "3. Add a new note\n";
+    cout << "4. Exit\n";
+    cout << "Enter your choice: ";
+}
+
+int main() {
+    CollaborativePlanner planner;
+    string currentUser;
+
+    cout << "Welcome to Collaborative Planner!\n";
+    cout << "Enter your name: ";
+    getline(cin, currentUser);
+
+    int choice;
+    do {
+        displayMainMenu();
+        cin >> choice;
+        cin.ignore(); // Очистка буфера
+
+        switch (choice) {
+            case 1: {
+                int year, month;
+                cout << "Enter year (e.g., 2023): ";
+                cin >> year;
+                cout << "Enter month (1-12): ";
+                cin >> month;
+                cin.ignore();
+
+                if (month < 1 || month > 12 || year < 1900) {
+                    cout << "Invalid date!\n";
+                    break;
+                }
+
+                planner.showCalendar(year, month);
+                break;
+            }
+            case 2: {
+                string date;
+                cout << "Enter date (YYYY-MM-DD) or 'today': ";
+                getline(cin, date);
+
+                if (date == "today") {
+                    date = planner.getCurrentDate();
+                }
+
+                if (!planner.isValidDate(date)) {
+                    cout << "Invalid date format! Use YYYY-MM-DD.\n";
+                    break;
+                }
+
+                planner.showNotesForDate(date);
+                break;
+            }
+            case 3: {
+                string date, content;
+                cout << "Enter date for the note (YYYY-MM-DD) or 'today': ";
+                getline(cin, date);
+
+                if (date == "today") {
+                    date = planner.getCurrentDate();
+                }
+
+                if (!planner.isValidDate(date)) {
+                    cout << "Invalid date format! Use YYYY-MM-DD.\n";
+                    break;
+                }
+
+                cout << "Enter your note (end with empty line):\n";
+                string line;
+                content = "";
+                while (getline(cin, line) && !line.empty()) {
+                    if (!content.empty()) content += "\n";
+                    content += line;
+                }
+
+                planner.addNote(currentUser, content, date);
+                cout << "Note added successfully!\n";
+                break;
+            }
+            case 4:
+                cout << "Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
